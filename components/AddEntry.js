@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, TouchableOpacity, Text } from 'react-native'
 import { getMetricMetaInfo, timeToString } from '../utils/helpers'
+import { submitEntry, removeEntry } from '../utils/api'
 import { Ionicons } from '@expo/vector-icons'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
@@ -60,8 +61,9 @@ export default class AddEntry extends Component {
     const key = timeToString()
     const entry = this.state
 
-    //TODO: update redux, navigate home, save to db, clear local notification
-    
+    //TODO: update redux, navigate home, clear local notification
+    submitEntry({ key, entry })
+
     this.setState({
       run: 0,
       bike: 0,
@@ -74,7 +76,8 @@ export default class AddEntry extends Component {
   reset = () => {
     const key = timeToString()
 
-    // TODO: update redux, route home, update db
+    // TODO: update redux, route home
+    removeEntry(key)
   }
 
   render() {
