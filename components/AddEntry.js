@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Platform, StyleSheet, TouchableOpacity, Text, View } from 'react-native'
+import { CommonActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers'
 import { submitEntry, removeEntry } from '../utils/api'
@@ -65,10 +66,12 @@ class AddEntry extends Component {
     const key = timeToString()
     const entry = this.state
 
-    //TODO: navigate home, clear local notification
+    //TODO: clear local notification
     this.props.dispatch(addEntry({
       [key]: entry,
     }))
+
+    this.toHome()
 
     submitEntry({ key, entry })
 
@@ -84,12 +87,20 @@ class AddEntry extends Component {
   reset = () => {
     const key = timeToString()
 
-    // TODO: route home
     removeEntry(key)
 
     this.props.dispatch(addEntry({
       [key]: getDailyReminderValue(),
     }))
+
+    this.toHome()
+  }
+
+  toHome = () => {
+    this.props.navigation.dispatch(
+      CommonActions.goBack({
+          key: 'AddEntry',
+      }))
   }
 
   render() {
