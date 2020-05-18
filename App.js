@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { Platform, SafeAreaView, StatusBar, View } from 'react-native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
@@ -11,6 +11,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import Constants from 'expo-constants'
+
+function UdaciStatusBar({ backgroundColor, ...props }) {
+  return (
+    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+      <StatusBar backgroundColor={backgroundColor} {...props}/>
+    </View>
+  )
+}
 
 const RouteConfigs = {
   History: {
@@ -61,12 +70,15 @@ export default class App extends React.Component {
     const store = createStore(reducer)
     return (
       <Provider store={store}>
-        <NavigationContainer>
+        <UdaciStatusBar backgroundColor={purple} barStyle='light-content'/>
+        <SafeAreaView style={{flex: 1}}>
+          <NavigationContainer>
             <Tab.Navigator {...TabNavigatorConfig}>
-                <Tab.Screen {...RouteConfigs['History']} />
-                <Tab.Screen {...RouteConfigs['AddEntry']} />
+              <Tab.Screen {...RouteConfigs['History']} />
+              <Tab.Screen {...RouteConfigs['AddEntry']} />
             </Tab.Navigator>
-        </NavigationContainer>
+          </NavigationContainer>
+        </SafeAreaView>
       </Provider>    
     )
   }
