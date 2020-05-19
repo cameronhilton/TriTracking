@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import { Platform, StyleSheet, TouchableOpacity, Text, View } from 'react-native'
 import { CommonActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
-import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers'
+import {
+  clearLocalNotification,
+  getDailyReminderValue,
+  getMetricMetaInfo,
+  setLocalNotification,
+  timeToString } from '../utils/helpers'
 import { submitEntry, removeEntry } from '../utils/api'
 import { Ionicons } from '@expo/vector-icons'
 import UdaciSlider from './UdaciSlider'
@@ -66,7 +71,6 @@ class AddEntry extends Component {
     const key = timeToString()
     const entry = this.state
 
-    //TODO: clear local notification
     this.props.dispatch(addEntry({
       [key]: entry,
     }))
@@ -82,6 +86,9 @@ class AddEntry extends Component {
       sleep: 0,
       eat: 0,
     })
+    
+    clearLocalNotification()
+      .then(setLocalNotification())
   }
 
   reset = () => {

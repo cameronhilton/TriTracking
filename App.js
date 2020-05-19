@@ -13,6 +13,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { purple, white } from './utils/colors'
+import { setLocalNotification } from './utils/helpers'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import Constants from 'expo-constants'
 
@@ -116,6 +117,10 @@ const MainNav = () => (
 )
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     const store = createStore(reducer)
     return (
