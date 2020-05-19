@@ -9,12 +9,16 @@ import { calculateDirection } from '../utils/helpers'
 export default class Live extends Component {
   state = {
     coords: null,
-    status: 'granted',
+    status: null,
     direction: '',
   }
 
   componentDidMount() {
-    Permissions.getAsync(Permissions.LOCATION)
+    this.askPermission()
+  }
+
+  askPermission = () => {
+    Permissions.askAsync(Permissions.LOCATION)
       .then(({ status }) => {
         if (status === 'granted') {
           return this.setLocation()
@@ -29,10 +33,6 @@ export default class Live extends Component {
       })
   }
 
-  askPermission = () => {
-
-  }
-
   setLocation = () => {
     Location.watchPositionAsync({
       enableHighAccuracy: true,
@@ -40,7 +40,6 @@ export default class Live extends Component {
       distanceInterval: 1,
     }, ({ coords }) => {
       const newDirection = calculateDirection(coords.heading)
-      const { direction } = this.state
 
       this.setState(() => ({
         coords,
@@ -91,7 +90,7 @@ export default class Live extends Component {
             You're heading
           </Text>
           <Text style={styles.direction}>
-            North
+            {direction}
           </Text>
         </View>
         <View style={styles.metricContainer}>
@@ -100,7 +99,8 @@ export default class Live extends Component {
               Altitude
             </Text>
             <Text style={[styles.subHeader, { color: white }]}>
-              {200} Feet
+              {/* convert altitude to ft */}
+              {Math.round(coords.altitude * 3.2808)} Feet
             </Text>
           </View>
           <View style={styles.metric}>
@@ -108,7 +108,8 @@ export default class Live extends Component {
               Speed
             </Text>
             <Text style={[styles.subHeader, { color: white }]}>
-              {3000} MPH
+              {/* convert to mph */}
+              {(coords.speed * 2.2369).toFixed(1)} MPH
             </Text>
           </View>
         </View>
