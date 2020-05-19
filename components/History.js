@@ -9,7 +9,6 @@ import { white } from '../utils/colors'
 import DateHeader from './DateHeader'
 import MetricCard from './MetricCard'
 import { AppLoading } from 'expo'
-import App from '../App'
 
 class History extends Component {
   state = {
