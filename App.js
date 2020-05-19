@@ -7,6 +7,7 @@ import reducer from './reducers'
 import AddEntry from './components/AddEntry'
 import EntryDetail from './components/EntryDetail'
 import History from './components/History'
+import Live from './components/Live'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
@@ -39,6 +40,14 @@ const RouteConfigs = {
       tabBarIcon: ({tintColor}) => <FontAwesome name='plus-square' size={30} color={tintColor} />,
       title: 'Add Entry'
     }
+  },
+  Live: {
+    component: Live,
+    name: 'Live',
+    options: {
+      tabBarIcon: ({tintColor}) => <FontAwesome name='tachometer' size={30} color={tintColor} />,
+      title: 'Live'
+    }
   }
 }
 
@@ -70,6 +79,7 @@ const TabNav = () => (
   <Tab.Navigator {...TabNavigatorConfig}>
     <Tab.Screen {...RouteConfigs['History']} />
     <Tab.Screen {...RouteConfigs['AddEntry']} />
+    <Tab.Screen {...RouteConfigs['Live']} />
   </Tab.Navigator>
 )
 
